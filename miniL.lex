@@ -3,7 +3,8 @@
 %{   
    /* write your C code here for definitions of variables and including headers */
 	#include <stdlib.h>
-	
+	#include <stdio.h>
+	#include "y.tab.h"	
 	int line = 1;
 	int col = 0;	
 %}

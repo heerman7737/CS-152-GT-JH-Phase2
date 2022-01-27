@@ -1,5 +1,6 @@
     /* cs152-miniL phase2 */
 %{
+#define YY_NO_INPUT
 #include<stdio.h>
 #include<stdlib.h>
 
@@ -39,6 +40,7 @@ void yyerror(const char *msg);
 %token ELSE
 %token WHILE
 %token DO
+%token FOR
 %token BEGINLOOP
 %token ENDLOOP
 %token CONTINUE
@@ -48,6 +50,8 @@ void yyerror(const char *msg);
 %token NOT
 %token TRUE
 %token FALSE
+%token AND
+%token OR
 %token RETURN
 %token SUB
 %token ADD
@@ -72,12 +76,9 @@ void yyerror(const char *msg);
 %% 
 
   /* write your rules here */
-Program:	Functions Program { printf("prog_start -> function\n"); }
-		| /* empty */ { printf("prog_start -> epsilon\n"); }
-		;
+Program:	Functions { printf("prog_start -> functions\n"); };
 
-Functions:	FUNCTION IDENT SEMICOLON BEGIN_PARAMS Declaration END_PARAMS BEGIN_LOCALS Declaration END_LOCALS BEGIN_BODY Statement END_BODY
-		{ printf("functions -> FUNCTION IDENT SEMICOLON BEGIN_PARAMS Declaration END_PARAMS BEGIN_LOCALS Declaration END_LOCALS BEGIN_BODY Statement END_BODY\n");}
+Functions:	FUNCTION IDENT SEMICOLON BEGIN_PARAMS Declaration END_PARAMS BEGIN_LOCALS Declaration END_LOCALS BEGIN_BODY Statement END_BODY { printf("functions -> FUNCTION IDENT SEMICOLON BEGIN_PARAMS Declaration END_PARAMS BEGIN_LOCALS Declaration END_LOCALS BEGIN_BODY Statement END_BODY\n");}
 		| Functions Functions { printf("functions -> functions functions\n"); }
 		| /* empty */ { printf("functions -> epsilon/n"); }
 		;
@@ -119,7 +120,7 @@ Comp: 		EQ { printf("Comp -> EQ\n"); }
 
 Expression: 	MultExp { printf("Expression -> MultExp\n"); }
 		| MultExp ADD MultExp { printf("Expression -> MultExp PLUS MultExp\n"); }
-		| MultExp SUB MultExp { printF("Expression -> MultExp SUB MultExp\n"); }
+		| MultExp SUB MultExp { printf("Expression -> MultExp SUB MultExp\n"); }
 		;
 MultExp: 	Term { printf("MultExp -> Term\n"); }
 		| Term MULT Term { printf("MultExp -> Term MULT Term\n"); }
@@ -145,14 +146,22 @@ Identifier: 	IDENT { printf("Identifier -> IDENT %S\n", $1); };
 %% 
 
 int main(int argc, char **argv) {
-   yyin = stdin;
-   yyparse();
-   return 0;
+    if (argc >= 2) {
+    	yyin = fopen(argv[1], "r");
+        if (yyin == NULL) {
+            yyin = stdin;
+        }
+    }
+    else {
+        yyin = stdin;
+    }
+    yyparse();
+    return 1;
 }
 
 void yyerror(const char *msg) {
     /* implement your error handling */
-   printf("ERROR\n");
+   
 }
 
 

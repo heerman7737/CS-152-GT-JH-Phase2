@@ -63,35 +63,38 @@ extern int yydebug;
     ELSE = 273,
     WHILE = 274,
     DO = 275,
-    BEGINLOOP = 276,
-    ENDLOOP = 277,
-    CONTINUE = 278,
-    BREAK = 279,
-    READ = 280,
-    WRITE = 281,
-    NOT = 282,
-    TRUE = 283,
-    FALSE = 284,
-    RETURN = 285,
-    SUB = 286,
-    ADD = 287,
-    MULT = 288,
-    DIV = 289,
-    MOD = 290,
-    EQ = 291,
-    NEQ = 292,
-    LT = 293,
-    GT = 294,
-    LTE = 295,
-    GTE = 296,
-    SEMICOLON = 297,
-    COLON = 298,
-    COMMA = 299,
-    L_PAREN = 300,
-    R_PAREN = 301,
-    L_SQUARE_BRACKET = 302,
-    R_SQUARE_BRACKET = 303,
-    ASSIGN = 304
+    FOR = 276,
+    BEGINLOOP = 277,
+    ENDLOOP = 278,
+    CONTINUE = 279,
+    BREAK = 280,
+    READ = 281,
+    WRITE = 282,
+    NOT = 283,
+    TRUE = 284,
+    FALSE = 285,
+    AND = 286,
+    OR = 287,
+    RETURN = 288,
+    SUB = 289,
+    ADD = 290,
+    MULT = 291,
+    DIV = 292,
+    MOD = 293,
+    EQ = 294,
+    NEQ = 295,
+    LT = 296,
+    GT = 297,
+    LTE = 298,
+    GTE = 299,
+    SEMICOLON = 300,
+    COLON = 301,
+    COMMA = 302,
+    L_PAREN = 303,
+    R_PAREN = 304,
+    L_SQUARE_BRACKET = 305,
+    R_SQUARE_BRACKET = 306,
+    ASSIGN = 307
   };
 #endif
 
@@ -100,14 +103,14 @@ extern int yydebug;
 
 union YYSTYPE
 {
-#line 12 "miniL.y" /* yacc.c:1909  */
+#line 13 "miniL.y" /* yacc.c:1909  */
 
   /* put your types here */
 	int num;
 	char* id;
 		
 
-#line 111 "y.tab.h" /* yacc.c:1909  */
+#line 114 "y.tab.h" /* yacc.c:1909  */
 };
 
 typedef union YYSTYPE YYSTYPE;
