@@ -7,6 +7,7 @@
 extern int yylex();
 extern int yyparse();
 extern FILE* yyin;
+
 void yyerror(const char *msg);
 %}
 
@@ -72,15 +73,15 @@ void yyerror(const char *msg);
 %token L_SQUARE_BRACKET
 %token R_SQUARE_BRACKET
 %token ASSIGN
-
+%token equal
 %% 
 
   /* write your rules here */
 Program:	Functions { printf("prog_start -> functions\n"); };
 
 Functions:	FUNCTION IDENT SEMICOLON BEGIN_PARAMS Declaration END_PARAMS BEGIN_LOCALS Declaration END_LOCALS BEGIN_BODY Statement END_BODY { printf("functions -> FUNCTION IDENT SEMICOLON BEGIN_PARAMS Declaration END_PARAMS BEGIN_LOCALS Declaration END_LOCALS BEGIN_BODY Statement END_BODY\n");}
-		| Functions Functions { printf("functions -> functions functions\n"); }
-		| /* empty */ { printf("functions -> epsilon\n"); }
+		/*| Functions Functions { printf("functions -> functions functions\n"); }
+		| /* empty  { printf("functions -> epsilon\n"); }*/
 		;
 
 Declaration: 	IDENT COLON INTEGER { printf("Declaration -> IDENT COLON INTEGER\n"); }
@@ -130,12 +131,12 @@ MultExp: 	Term { printf("MultExp -> Term\n"); }
 
 Term: 		Var Term { printf("Term -> Var Term\n"); }
 		| NUMBER { printf("Term -> NUMBER %d\n", $1); }
-		| L_PAREN Expression Term R_PAREN { printf("Term -> L_PAREN EXPRESSINO Term R_PAREN\n"); }
+		| L_PAREN Expression R_PAREN { printf("Term -> L_PAREN EXPRESSINO R_PAREN\n"); }
 		| COMMA Expression { printf("Term -> COMMA Expression\n"); }
 		| /* empty */ { printf("Term -> epsilon\n"); }
 		;
 
-Var: 		Identifier Var { printf("Var -> Identifier Var\n"); }
+Var: 		Identifier Var{ printf("Var -> Identifier Var\n"); }
 		| L_SQUARE_BRACKET Expression  R_SQUARE_BRACKET { printf("Var -> L_SQUARE_BRACKET Expression R_SQUARE_BRACKET\n"); }
 		| /* empty */ { printf("Var -> epsilon\n"); }
 		;
@@ -161,7 +162,10 @@ int main(int argc, char **argv) {
 
 void yyerror(const char *msg) {
     /* implement your error handling */
-  printf("ERROR\n");
+  extern int line;
+  extern int col;
+  extern char* yytext;
+  printf("\n%s Error: On line %d, column %d: %s \n", msg, line, col, yytext);
     
 }
 

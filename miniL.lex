@@ -92,9 +92,10 @@ ERROR3	{IDENT}"_"
 {NUMBER}	{ yylval.num = atoi(yytext); return NUMBER; }
 {newline}	{line++; col = 0;}
 {whitespace}	{col++;}
-{ERROR1}	{yyerror("1"); exit(1);}
-{ERROR2}	{yyerror("2"); exit(1);}
-{ERROR3}	{yyerror("3"); exit(1);}
+{ERROR1}	{yyerror("Unrecognized symbol");}
+{ERROR2}	{yyerror("Syntax");}
+{ERROR3}	{yyerror("Syntax");}
+{equal}		{return equal;}
 
 %%
 	/* C functions used in lexer */

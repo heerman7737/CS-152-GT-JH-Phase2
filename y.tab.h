@@ -94,7 +94,8 @@ extern int yydebug;
     R_PAREN = 304,
     L_SQUARE_BRACKET = 305,
     R_SQUARE_BRACKET = 306,
-    ASSIGN = 307
+    ASSIGN = 307,
+    equal = 308
   };
 #endif
 
@@ -103,14 +104,14 @@ extern int yydebug;
 
 union YYSTYPE
 {
-#line 13 "miniL.y" /* yacc.c:1909  */
+#line 14 "miniL.y" /* yacc.c:1909  */
 
   /* put your types here */
 	int num;
 	char* id;
 		
 
-#line 114 "y.tab.h" /* yacc.c:1909  */
+#line 115 "y.tab.h" /* yacc.c:1909  */
 };
 
 typedef union YYSTYPE YYSTYPE;
