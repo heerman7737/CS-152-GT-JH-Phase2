@@ -80,10 +80,10 @@ Program:	Functions { printf("prog_start -> functions\n"); };
 
 Functions:	FUNCTION IDENT SEMICOLON BEGIN_PARAMS Declaration END_PARAMS BEGIN_LOCALS Declaration END_LOCALS BEGIN_BODY Statement END_BODY { printf("functions -> FUNCTION IDENT SEMICOLON BEGIN_PARAMS Declaration END_PARAMS BEGIN_LOCALS Declaration END_LOCALS BEGIN_BODY Statement END_BODY\n");}
 		| Functions Functions { printf("functions -> functions functions\n"); }
-		| /* empty */ { printf("functions -> epsilon/n"); }
+		| /* empty */ { printf("functions -> epsilon\n"); }
 		;
 
-Declaration: 	IDENT COLON INTEGER { printf("Declaration -> IDENT COLON INTEGER"); }
+Declaration: 	IDENT COLON INTEGER { printf("Declaration -> IDENT COLON INTEGER\n"); }
 		| IDENT COLON ARRAY L_SQUARE_BRACKET NUMBER R_SQUARE_BRACKET OF INTEGER 
 		{ printf("Declaration -> IDENT COLON ARRAY L_SQUARE_BRACKET NUMBER R_SQUARE_BRACKET OF INTEGER\n"); }
 		| Declaration SEMICOLON Declaration { printf("Declaration -> Declaration SEMICOLON Declaration\n"); }
@@ -107,7 +107,7 @@ Statement:	Statement SEMICOLON Statement { printf("Statement -> Statement SEMICO
 BoolExp: 	BoolExp BoolExp { printf("BoolExp -> BoolExp BoolExp\n"); }
 		| Expression Comp Expression { printf("BoolExp -> Expression Comp Expression\n"); }
 		| NOT { printf("BoolExp -> NOT\n"); }
-		| /* empty */ { printf("BoolExp -> epsilon"); }
+		| /* empty */ { printf("BoolExp -> epsilon\n"); }
 		;
 
 Comp: 		EQ { printf("Comp -> EQ\n"); }
@@ -137,7 +137,7 @@ Term: 		Var Term { printf("Term -> Var Term\n"); }
 
 Var: 		Identifier Var { printf("Var -> Identifier Var\n"); }
 		| L_SQUARE_BRACKET Expression  R_SQUARE_BRACKET { printf("Var -> L_SQUARE_BRACKET Expression R_SQUARE_BRACKET\n"); }
-		| /* empty */ { printf("Var -> epsilon"); }
+		| /* empty */ { printf("Var -> epsilon\n"); }
 		;
 
 Identifier: 	IDENT { printf("Identifier -> IDENT %S\n", $1); }; 
@@ -161,7 +161,8 @@ int main(int argc, char **argv) {
 
 void yyerror(const char *msg) {
     /* implement your error handling */
-   
+  printf("ERROR\n");
+    
 }
 
 
