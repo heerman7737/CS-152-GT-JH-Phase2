@@ -1464,13 +1464,13 @@ yyreduce:
 
   case 5:
 #line 83 "miniL.y" /* yacc.c:1646  */
-    { printf("functions -> epsilon/n"); }
+    { printf("functions -> epsilon\n"); }
 #line 1469 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 6:
 #line 86 "miniL.y" /* yacc.c:1646  */
-    { printf("Declaration -> IDENT COLON INTEGER"); }
+    { printf("Declaration -> IDENT COLON INTEGER\n"); }
 #line 1475 "y.tab.c" /* yacc.c:1646  */
     break;
 
@@ -1578,7 +1578,7 @@ yyreduce:
 
   case 24:
 #line 110 "miniL.y" /* yacc.c:1646  */
-    { printf("BoolExp -> epsilon"); }
+    { printf("BoolExp -> epsilon\n"); }
 #line 1583 "y.tab.c" /* yacc.c:1646  */
     break;
 
@@ -1704,7 +1704,7 @@ yyreduce:
 
   case 45:
 #line 140 "miniL.y" /* yacc.c:1646  */
-    { printf("Var -> epsilon"); }
+    { printf("Var -> epsilon\n"); }
 #line 1709 "y.tab.c" /* yacc.c:1646  */
     break;
 
@@ -1969,7 +1969,8 @@ int main(int argc, char **argv) {
 
 void yyerror(const char *msg) {
     /* implement your error handling */
-   
+  printf("ERROR\n");
+    
 }
 
 

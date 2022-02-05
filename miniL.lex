@@ -92,9 +92,9 @@ ERROR3	{IDENT}"_"
 {NUMBER}	{ yylval.num = atoi(yytext); return NUMBER; }
 {newline}	{line++; col = 0;}
 {whitespace}	{col++;}
-{ERROR1}	{printf("Error at line %d, column %d: unrecognized symbol \"%s\"\n", line, col, yytext); exit(1);}
-{ERROR2}	{printf("Error at line %d, column %d: identifier \"%s\" must begin with a letter\n", line, col, yytext); exit(1);}
-{ERROR3}	{printf("Error at line %d, column %d: identifier \"%s\" cannot end with underscore\n", line, col, yytext); exit(1);}
+{ERROR1}	{yyerror("1"); exit(1);}
+{ERROR2}	{yyerror("2"); exit(1);}
+{ERROR3}	{yyerror("3"); exit(1);}
 
 %%
 	/* C functions used in lexer */
