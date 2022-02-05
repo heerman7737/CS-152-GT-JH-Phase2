@@ -360,8 +360,8 @@ static void yy_fatal_error (yyconst char msg[]  );
 	*yy_cp = '\0'; \
 	(yy_c_buf_p) = yy_cp;
 
-#define YY_NUM_RULES 56
-#define YY_END_OF_BUFFER 57
+#define YY_NUM_RULES 57
+#define YY_END_OF_BUFFER 58
 /* This struct is not used in this scanner,
    but its presence is necessary. */
 struct yy_trans_info
@@ -371,7 +371,7 @@ struct yy_trans_info
 	};
 static yyconst flex_int16_t yy_accept[160] =
     {   0,
-        0,    0,   57,   53,   52,   51,   53,   32,   33,   39,
+        0,    0,   58,   53,   52,   51,   53,   32,   33,   39,
        38,   31,   37,   40,   50,   30,   29,   44,   53,   45,
        49,   41,   34,   35,   49,   49,   49,   49,   49,   49,
        49,   49,   49,   49,   49,   49,    0,   50,   54,   36,
@@ -1118,24 +1118,29 @@ YY_RULE_SETUP
 case 53:
 YY_RULE_SETUP
 #line 95 "miniL.lex"
-{yyerror("1"); exit(1);}
+{yyerror("Unrecognized symbol");}
 	YY_BREAK
 case 54:
 YY_RULE_SETUP
 #line 96 "miniL.lex"
-{yyerror("2"); exit(1);}
+{yyerror("Syntax");}
 	YY_BREAK
 case 55:
 YY_RULE_SETUP
 #line 97 "miniL.lex"
-{yyerror("3"); exit(1);}
+{yyerror("Syntax");}
 	YY_BREAK
 case 56:
 YY_RULE_SETUP
-#line 99 "miniL.lex"
+#line 98 "miniL.lex"
+{return equal;}
+	YY_BREAK
+case 57:
+YY_RULE_SETUP
+#line 100 "miniL.lex"
 ECHO;
 	YY_BREAK
-#line 1139 "lex.yy.c"
+#line 1144 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -2129,7 +2134,7 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 99 "miniL.lex"
+#line 100 "miniL.lex"
 
 
 	/* C functions used in lexer */
