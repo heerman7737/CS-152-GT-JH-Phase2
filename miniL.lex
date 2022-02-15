@@ -67,6 +67,7 @@ ERROR3	{IDENT}"_"
 "not"         	{ return NOT; }
 "true"        	{ return TRUE; }
 "false"       	{ return FALSE; }
+"break"		{ return BREAK; }
 "return"      	{ return RETURN; }
 ";"		{ return SEMICOLON; }
 {colon}		{ return COLON; }
@@ -95,7 +96,6 @@ ERROR3	{IDENT}"_"
 {ERROR1}	{yyerror("Unrecognized symbol");}
 {ERROR2}	{yyerror("Syntax");}
 {ERROR3}	{yyerror("Syntax");}
-{equal}		{return equal;}
 
 %%
 	/* C functions used in lexer */
