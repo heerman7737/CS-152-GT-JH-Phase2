@@ -77,38 +77,49 @@ void yyerror(const char *msg);
 %% 
 
   /* write your rules here */
-Program:	Functions { printf("prog_start -> functions\n"); };
+Program:	Functions { printf("prog_start -> Functions\n"); };
 
-Functions:	FUNCTION IDENT SEMICOLON BEGIN_PARAMS Declaration END_PARAMS BEGIN_LOCALS Declaration END_LOCALS BEGIN_BODY Statement END_BODY { printf("functions -> FUNCTION IDENT SEMICOLON BEGIN_PARAMS Declaration END_PARAMS BEGIN_LOCALS Declaration END_LOCALS BEGIN_BODY Statement END_BODY\n");}
-		/*| Functions Functions { printf("functions -> functions functions\n"); }
-		| /* empty  { printf("functions -> epsilon\n"); }*/
+Functions:	Funct Functions { printf("Functions -> Funct Functions\n"); }
+		| /* empty */ { printf("Functions -> epsilon\n"); }
 		;
 
-Declaration: 	IDENT COLON INTEGER { printf("Declaration -> IDENT COLON INTEGER\n"); }
-		| IDENT COLON ARRAY L_SQUARE_BRACKET NUMBER R_SQUARE_BRACKET OF INTEGER 
-		{ printf("Declaration -> IDENT COLON ARRAY L_SQUARE_BRACKET NUMBER R_SQUARE_BRACKET OF INTEGER\n"); }
-		| Declaration SEMICOLON Declaration { printf("Declaration -> Declaration SEMICOLON Declaration\n"); }
+Funct:	FUNCTION IDENT SEMICOLON BEGIN_PARAMS Declaration END_PARAMS BEGIN_LOCALS Declaration END_LOCALS BEGIN_BODY Statement END_BODY { printf("Funct -> FUNCTION IDENT SEMICOLON BEGIN_PARAMS Declaration END_PARAMS BEGIN_LOCALS Declaration END_LOCALS BEGIN_BODY Statement END_BODY\n");}
+		;
+
+Declaration: 	Declarations SEMICOLON Declaration { printf("Declaration -> Declarations SEMICOLON Declaration\n"); }
 		| /* empty */ { printf("Declaration -> epsilon\n"); }
 		;
+ 
+Declarations: 	IDENT COLON Declare-Type { printf("Declaration -> IDENT COLON Declare-Type\n"); }
+		;
+
+Declare-Type:	INTEGER { printf("Declare-Type -> INTEGER\n"); }
+		| ARRAY L_SQUARE_BRACKET NUMBER R_SQUARE_BRACKET OF INTEGER 
+		{ printf("Declaration -> ARRAY L_SQUARE_BRACKET NUMBER R_SQUARE_BRACKET OF INTEGER\n"); }
+		;
 
 
-Statement:	Statement SEMICOLON Statement { printf("Statement -> Statement SEMICOLON Statement\n"); }
-		| Var ASSIGN Expression {printf("Statement -> Var ASSIGN Expression\n"); }
-		| IF BoolExp THEN Statement ENDIF { printf("Statement -> IF BoolExp THEN Statement ENDIF\n"); }
-		| IF BoolExp THEN Statement ELSE Statement ENDIF { printf("Statement -> IF BoolExp THEN Statement ELSE Statement ENDIF\n"); }
+Statement:	Statements SEMICOLON Statement { printf("Statement -> Statements SEMICOLON Statement\n"); }
+		| /* empty */ { printf("Statement -> epsilon\n"); }
+		;
+
+Statements:	Var ASSIGN Expression {printf("Statement -> Var ASSIGN Expression\n"); }
+		| IF BoolExp THEN Statement Else-State ENDIF { printf("Statement -> IF BoolExp THEN Statement Else-State ENDIF\n"); }
 		| WHILE BoolExp BEGINLOOP Statement ENDLOOP { printf("Statement -> WHILE BoolExp BEGINLOOP Statement ENDLOOP\n"); }
 		| DO BEGINLOOP Statement ENDLOOP WHILE BoolExp { printf("Statement -> DO BEGINLOOP Statement ENDLOOP WHILE BoolExp\n"); }
 		| READ Var { printf("Statement -> READ Var\n"); }
 		| WRITE Var { printf("Statement -> WRITE Var\n"); }
 		| CONTINUE { printf("Statement -> CONTINUE\n"); }
+		| BREAK { printf("Statement -> BREAK\n"); }
 		| RETURN Expression { printf("Statement -> RETURN Expression\n"); }
-		| /* empty */ { printf("Statement -> epsilon\n"); }
 		;
 
-BoolExp: 	BoolExp BoolExp { printf("BoolExp -> BoolExp BoolExp\n"); }
+Else-State:	ELSE Statement { printf("Else-State -> ELSE Statement\n"); }
+		| /* empty */ { printf("Else-State -> epsilon\n"); }
+		;	
+
+BoolExp: 	NOT BoolExp { printf("BoolExp -> NOT BoolExp\n"); }
 		| Expression Comp Expression { printf("BoolExp -> Expression Comp Expression\n"); }
-		| NOT { printf("BoolExp -> NOT\n"); }
-		| /* empty */ { printf("BoolExp -> epsilon\n"); }
 		;
 
 Comp: 		EQ { printf("Comp -> EQ\n"); }
@@ -119,26 +130,44 @@ Comp: 		EQ { printf("Comp -> EQ\n"); }
 		| GTE { printf("Comp -> GTE\n"); }
 		;
 
-Expression: 	MultExp { printf("Expression -> MultExp\n"); }
-		| MultExp ADD MultExp { printf("Expression -> MultExp PLUS MultExp\n"); }
-		| MultExp SUB MultExp { printf("Expression -> MultExp SUB MultExp\n"); }
-		;
-MultExp: 	Term { printf("MultExp -> Term\n"); }
-		| Term MULT Term { printf("MultExp -> Term MULT Term\n"); }
-		| Term DIV Term { printf("MultExp -> Term DIV Term\n"); }
-		| Term MOD Term { printf("MultExp -> Term MOD Term\n"); }
+Expression: 	MultExp Exp { printf("Expression -> MultExp Exp\n"); }
 		;
 
-Term: 		Var Term { printf("Term -> Var Term\n"); }
+Exp:		addOp MultExp { printf("Exp -> addOp MultExp\n"); }
+		| /* empty */ { printf("Exp -> epsilon\n"); }
+		;
+
+addOp:		ADD { printf("addOp -> ADD\n"); }
+		| SUB { printf("addOp -> SUB\n"); }
+		;
+
+MultExp: 	Term  Exp-Mult { printf("MultExp -> Term Exp-Mult\n"); }
+		;
+
+Exp-Mult:	multOp Term { printf("Exp-Mult -> multOp Term\n"); }
+		| /* empty */ { printf("Exp-Mult -> epsilon\n"); }
+		;
+
+multOp:		MULT { printf("multOp -> MULT\n"); }
+		| DIV { printf("multOp -> DIV\n"); }
+		| MOD { printf("multOp -> MOD\n"); }
+		;
+
+Term: 		Var { printf("Term -> Var\n"); }
 		| NUMBER { printf("Term -> NUMBER %d\n", $1); }
 		| L_PAREN Expression R_PAREN { printf("Term -> L_PAREN EXPRESSINO R_PAREN\n"); }
-		| COMMA Expression { printf("Term -> COMMA Expression\n"); }
-		| /* empty */ { printf("Term -> epsilon\n"); }
+		| Identifier L_PAREN Exp-Paren R_PAREN { printf("Term -> IDENT L-PAREN Exp-Paren R_PAREN\n"); } 
 		;
 
-Var: 		Identifier Var{ printf("Var -> Identifier Var\n"); }
-		| L_SQUARE_BRACKET Expression  R_SQUARE_BRACKET { printf("Var -> L_SQUARE_BRACKET Expression R_SQUARE_BRACKET\n"); }
-		| /* empty */ { printf("Var -> epsilon\n"); }
+Exp-Paren: 	Expression Exp-Comma { printf("Exp-Paren -> Expression Exp-Paren\n"); }
+		;
+
+Exp-Comma:	COMMA Exp-Paren { printf("Exp-Comma -> COMMA Exp-Paren\n"); }
+		| /* empty */ { printf("Exp-Comma -> epsilon\n"); }
+		; 
+
+Var: 		Identifier { printf("Var -> Identifier\n"); }
+		| Identifier L_SQUARE_BRACKET Expression  R_SQUARE_BRACKET { printf("Var -> Identifier L_SQUARE_BRACKET Expression R_SQUARE_BRACKET\n"); }
 		;
 
 Identifier: 	IDENT { printf("Identifier -> IDENT %S\n", $1); }; 
